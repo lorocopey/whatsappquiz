@@ -4,7 +4,7 @@ const { Client, MessageMedia } = require("whatsapp-web.js");
 const fs = require("fs");
 const ora = require("ora");
 const clear = require("clear-screen");
-var base64Img = require('base64-img');
+var base64Img = require("base64-img");
 
 const SESSION_FILE_PATH = "./session.json";
 let client;
@@ -55,34 +55,40 @@ const withoutsession = () => {
 
 const listenMessage = () => {
   client.on("message", async (inboundMsg) => {
-    console.log(inboundMsg);
+    //console.log(inboundMsg);
 
-    const { from, to, body, hasMedia, mediaKey } = inboundMsg;
+    const { from, to, body, hasMedia, id } = inboundMsg;
 
     if (hasMedia) {
       const mediafile = await inboundMsg.downloadMedia();
-      console.log(
+      /* console.log(
         mediafile.mimetype,
         mediafile.filename,
-        mediafile.data.length
-      );
-        
-      //How to save that object as a file? =====================================
+        mediafile.data.length,
+        id
+      ); */
 
-      fs.writeFile('./upload/', JSON.stringify(mediafile.data), function (err) {
-        if (err) {
-          console.log(err);
-        }
+      var n = mediafile.mimetype.search('/');
+      var type = mediafile.mimetype.slice(0, n);
+      var lon = mediafile.mimetype.length
+      var extension = mediafile.mimetype.substr(lon-(n-1), lon);
+      extension=extension.replace("/","")
+      console.log({type,extension})
+
+      const filepath = './src/upload/'+id.id+"."+extension
+      const fileContents = Buffer.from(mediafile.data,"base64");
+      fs.writeFile(filepath, fileContents, (err) => {
+        if (err) return console.error(err);
+        console.log("file saved to ", filepath);
       });
 
-      //========================================================================
-
+      
 
       var post = {
         message: body,
         direction: "inbound",
         number: from,
-        media: "mymediafile",
+        media: filepath,
       };
       var query = pool.query(
         "INSERT INTO chat SET ?",

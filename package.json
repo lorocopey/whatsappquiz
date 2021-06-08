@@ -11,9 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "base64-img": "^1.0.4",
     "clear-screen": "^1.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "ora": "^5.4.0",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.12.6"

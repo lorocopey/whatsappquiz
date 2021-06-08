@@ -2,3 +2,4 @@
 .env
 session.json
 database credential.txt
+/src/upload
