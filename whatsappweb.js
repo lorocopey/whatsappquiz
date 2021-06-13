@@ -133,8 +133,10 @@ const sendMessage = (to, outboundMsg) => {
 };
 
 const sendMedia = (to, file) => {
-  const mediaFile = MessageMedia.fromFilePath(file);
+  var mediaFile = MessageMedia.fromFilePath(file);
   client.sendMessage(to, mediaFile);
 };
 
 fs.existsSync(SESSION_FILE_PATH) ? withsession() : withoutsession();
+
+module.exports = {sendMedia,sendMessage,listenMessage}

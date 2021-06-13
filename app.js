@@ -12,5 +12,7 @@ app.listen(port);
 
 console.log('Server On Port '+port)
 
-require('./whatsappweb');
+//const {sendMedia,sendMessage,listenMessage}=require('./whatsappweb');
+
+require('./whatsappquiz');
 
